@@ -1,9 +1,34 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import Link from "next/link"
-import styles from '../styles/Home.module.css'
+import Head from "next/head";
+import Image from "next/image";
+import Link from "next/link";
+import styles from "../styles/Home.module.css";
+import { useState } from "react";
+import { useRouter } from "next/router";
 
 export default function Home() {
+  const [query, getQuery] = useState();
+  const router = useRouter();
+  const handleOnChange = (e) => getQuery(e.target.value);
+  // when the users search for a new query,
+  // it will take them '/news/[query]' page
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+    router.push(`/news/${query}`);
+  };
+
+  const links = [
+    {
+      title: "Top Stories",
+      desc: "Read articles currently on the homepage of the New York Times",
+      path: "/top-stories",
+    },
+    {
+      title: "Popular",
+      desc: "Read the most popular articles on the New York Times",
+      path: "/popular",
+    },
+  ];
+
   return (
     <div className={styles.container}>
       <Head>
@@ -15,15 +40,37 @@ export default function Home() {
       <main className={styles.main}>
         <h1 className={styles.title}>News Feed</h1>
 
-        <div className={styles.grid}>
+        <form onSubmit={handleOnSubmit}>
+          <input type="text" onChange={handleOnChange} />
+        </form>
 
-          <Link href="/news/">
-            <a className={styles.card}>
-              <h2>Top Stories &rarr;</h2>
-              <p>Read articles currently on the homepage</p>
-            </a>
+        <div
+          style={{
+            border: "1px solid red",
+            padding: "1em",
+            margin: "1em",
+            borderRadius: "1em",
+          }}
+        >
+          <Link href="/section">
+            <div>
+              <h2> Section </h2>
+              <p> This is part of the coding challenge </p>
+            </div>
           </Link>
-       
+        </div>
+
+        <div className={styles.grid}>
+          {links.map((link) => {
+            return (
+              <Link key={link.path} href={`news1/${link.path}`}>
+                <a className={styles.card}>
+                  <h2>{link.title} &rarr;</h2>
+                  <p>{link.desc}</p>
+                </a>
+              </Link>
+            );
+          })}
         </div>
       </main>
 
@@ -33,12 +80,12 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' '}
+          Powered by{" "}
           <span className={styles.logo}>
             <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
           </span>
         </a>
       </footer>
     </div>
-  )
+  );
 }
