@@ -10,7 +10,8 @@ export default function Section({ results, query }) {
       <ul>
         {results?.map((post) => (
           <a href={`section/${post.url}`} target="_blank">
-            <li>{post.title}</li>
+            <li stlyle={{ color: "blue" }}>{post.title}</li>
+            <p>{post.abstract}</p>
           </a>
         ))}
       </ul>
@@ -19,15 +20,15 @@ export default function Section({ results, query }) {
 }
 
 export async function getServerSideProps({ params }) {
-  console.log("query", params.query);
+  console.log("query", params.section);
   const results = await handler(
-    `https://api.nytimes.com/svc/news/v3/content/nyt/${params.query}.json?api-key=${API_KEY}`
+    `https://api.nytimes.com/svc/news/v3/content/nyt/${params.section}.json?api-key=${API_KEY}`
   );
 
   return {
     props: {
       results,
-      query: params.query,
+      query: params.section,
     },
   };
 }

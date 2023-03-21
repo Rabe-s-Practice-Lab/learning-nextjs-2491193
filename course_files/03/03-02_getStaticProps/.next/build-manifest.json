@@ -35,10 +35,10 @@
       "static/chunks/main.js",
       "static/chunks/pages/section.js"
     ],
-    "/section/[query]": [
+    "/section/[section]": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/section/[query].js"
+      "static/chunks/pages/section/[section].js"
     ]
   },
   "ampFirstPages": []
